@@ -1,5 +1,6 @@
 using System;
 using Xunit;
+using HLLArtilleryCalculator;
 
 namespace HLLArtilleryCalculator.Tests
 {
