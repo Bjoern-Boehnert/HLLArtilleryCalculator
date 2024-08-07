@@ -61,15 +61,4 @@
     <InternalsVisibleTo Include="$(AssemblyName).Test" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\Bjoern-Boehnert\ArtilleryCalculator\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\..\Bjoern-Boehnert\ArtilleryCalculator\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
 </Project>
