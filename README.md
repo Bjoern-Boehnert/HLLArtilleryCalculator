@@ -4,3 +4,5 @@ Modification to the original project https://github.com/oceantume/ArtilleryCalcu
 
 ## Added Functionality
 - Support for British Artillery
+
+v1
