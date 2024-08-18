@@ -4,58 +4,46 @@ on:
   push:
     tags:
       - 'v*.*.*' # Trigger auf Tag-Release
-
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-    - name: Setup .NET
+    - name: Setup dotnet
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '8.x' # Setze dies auf deine .NET-Version
 
-    - name: Restore dependencies
+    - name: Install dependencies
       run: dotnet restore
 
-    - name: Build project
+    - name: Build
       run: dotnet build --configuration Release
-
+    
+    - name: Test
+      run: dotnet test
+    
     - name: Publish project
-      run: dotnet publish --configuration Release --output ./output
+      run: dotnet publish --configuration Release --self-contained -r win-x64 -p:PublishSingleFile=true,UseAppHost=true
 
-    - name: Create a ZIP file for release
-      run: |
-        Compress-Archive -Path ./output/* -DestinationPath ./output/Release.zip
-
-    - name: Upload Release ZIP
-      uses: actions/upload-artifact@v3
+    - name: Create Release
+      id: create_release
+      uses: softprops/action-gh-release@v1
       with:
-        name: release-zip
-        path: ./output/Release.zip
-
-  release:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Create GitHub Release
-      uses: gh-actions/create-release@v1
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
+        tag_name: ${{ github.ref_name }} # Use github.ref_name to get only the tag name
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload Release Asset
-      uses: gh-actions/upload-release-asset@v1
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./output/Release.zip
-        asset_name: Release.zip
-        asset_content_type: application/zip
+        asset_path: HLLArtilleryCalculator/bin/Release/net8.0-windows/win-x64/publish/HLLArtilleryCalculator.exe
+        asset_name: HLLArtilleryCalculator.exe
+        asset_content_type: application/octet-stream
