@@ -48,7 +48,7 @@ namespace HLLArtilleryCalculator.Tests
                 Tuple.Create(100m, 1120m),
             };
 
-            IDistanceElevationConverter converter = new RusDistanceElevationConverter();
+            IDistanceElevationConverter converter = new RussianDistanceElevationConverter();
 
             foreach (var tuple in tuples)
             {

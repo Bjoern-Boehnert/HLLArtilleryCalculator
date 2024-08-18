@@ -1,6 +1,6 @@
 ﻿namespace HLLArtilleryCalculator
 {
-    class RusDistanceElevationConverter : IDistanceElevationConverter
+    class RussianDistanceElevationConverter : IDistanceElevationConverter
     {
         private const decimal A = 1120m;
         private const decimal B = 21.33m;

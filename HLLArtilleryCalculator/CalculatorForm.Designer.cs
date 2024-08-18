@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CalculatorForm));
             enableNumpadCheckbox = new CheckBox();
             label1 = new Label();
             label2 = new Label();
@@ -41,7 +40,6 @@
             lastHitLabel = new Label();
             lastHitCountdownLabel = new Label();
             clickTimerUpdateTimer = new System.Windows.Forms.Timer(components);
-            transparentCheckbox = new CheckBox();
             modeComboBox = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)distanceInput).BeginInit();
             ((System.ComponentModel.ISupportInitialize)elevationInput).BeginInit();
@@ -53,7 +51,7 @@
             enableNumpadCheckbox.Location = new Point(299, 32);
             enableNumpadCheckbox.Margin = new Padding(4, 3, 4, 3);
             enableNumpadCheckbox.Name = "enableNumpadCheckbox";
-            enableNumpadCheckbox.Size = new Size(119, 19);
+            enableNumpadCheckbox.Size = new Size(121, 19);
             enableNumpadCheckbox.TabIndex = 6;
             enableNumpadCheckbox.Text = "Listen to numpad";
             enableNumpadCheckbox.UseVisualStyleBackColor = true;
@@ -65,7 +63,7 @@
             label1.Location = new Point(103, 31);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(20, 15);
+            label1.Size = new Size(18, 15);
             label1.TabIndex = 999;
             label1.Text = "->";
             // 
@@ -75,7 +73,7 @@
             label2.Location = new Point(10, 6);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(55, 15);
+            label2.Size = new Size(58, 15);
             label2.TabIndex = 999;
             label2.Text = "Distance:";
             // 
@@ -85,7 +83,7 @@
             label3.Location = new Point(125, 6);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(58, 15);
+            label3.Size = new Size(60, 15);
             label3.TabIndex = 999;
             label3.Text = "Elevation:";
             // 
@@ -94,8 +92,7 @@
             distanceInput.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             distanceInput.Location = new Point(14, 25);
             distanceInput.Margin = new Padding(4, 3, 4, 3);
-            distanceInput.Maximum = new decimal(new int[] { -1, -1, -1, 0 });
-            distanceInput.Minimum = new decimal(new int[] { -1, -1, -1, int.MinValue });
+            distanceInput.Maximum = new decimal(new int[] { 1600, 0, 0, 0 });
             distanceInput.Name = "distanceInput";
             distanceInput.Size = new Size(82, 24);
             distanceInput.TabIndex = 0;
@@ -132,7 +129,7 @@
             enableClickTimerCheckbox.Location = new Point(299, 60);
             enableClickTimerCheckbox.Margin = new Padding(4, 3, 4, 3);
             enableClickTimerCheckbox.Name = "enableClickTimerCheckbox";
-            enableClickTimerCheckbox.Size = new Size(119, 19);
+            enableClickTimerCheckbox.Size = new Size(123, 19);
             enableClickTimerCheckbox.TabIndex = 7;
             enableClickTimerCheckbox.Text = "Enable click timer";
             enableClickTimerCheckbox.UseVisualStyleBackColor = true;
@@ -144,7 +141,7 @@
             lastHitLabel.Location = new Point(218, 6);
             lastHitLabel.Margin = new Padding(4, 0, 4, 0);
             lastHitLabel.Name = "lastHitLabel";
-            lastHitLabel.Size = new Size(61, 15);
+            lastHitLabel.Size = new Size(62, 15);
             lastHitLabel.TabIndex = 999;
             lastHitLabel.Text = "Last hit in:";
             lastHitLabel.Visible = false;
@@ -167,18 +164,6 @@
             clickTimerUpdateTimer.Interval = 250;
             clickTimerUpdateTimer.Tick += clickTimerUpdateTimer_Tick;
             // 
-            // transparentCheckbox
-            // 
-            transparentCheckbox.AutoSize = true;
-            transparentCheckbox.Location = new Point(120, 62);
-            transparentCheckbox.Margin = new Padding(4, 3, 4, 3);
-            transparentCheckbox.Name = "transparentCheckbox";
-            transparentCheckbox.Size = new Size(164, 19);
-            transparentCheckbox.TabIndex = 4;
-            transparentCheckbox.Text = "Transparent (Ctrl+Shift+K)";
-            transparentCheckbox.UseVisualStyleBackColor = true;
-            transparentCheckbox.CheckedChanged += transparentCheckbox_CheckedChanged;
-            // 
             // modeComboBox
             // 
             modeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -197,7 +182,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(428, 92);
             Controls.Add(modeComboBox);
-            Controls.Add(transparentCheckbox);
             Controls.Add(lastHitCountdownLabel);
             Controls.Add(lastHitLabel);
             Controls.Add(stayOnTopCheckbox);
@@ -208,13 +192,13 @@
             Controls.Add(label1);
             Controls.Add(enableClickTimerCheckbox);
             Controls.Add(enableNumpadCheckbox);
+            Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
+            MinimizeBox = false;
             Name = "CalculatorForm";
-            Text = "Artillery Calculator";
-            Activated += CalculatorForm_Activated;
+            Text = "HLL Artillery Calculator v1.0.0";
             FormClosing += CalculatorForm_FormClosing;
             ((System.ComponentModel.ISupportInitialize)distanceInput).EndInit();
             ((System.ComponentModel.ISupportInitialize)elevationInput).EndInit();
@@ -234,7 +218,6 @@
         private System.Windows.Forms.Label lastHitLabel;
         private System.Windows.Forms.Label lastHitCountdownLabel;
         private System.Windows.Forms.Timer clickTimerUpdateTimer;
-        private System.Windows.Forms.CheckBox transparentCheckbox;
         private System.Windows.Forms.ComboBox modeComboBox;
     }
 }

@@ -26,11 +26,6 @@ namespace HLLArtilleryCalculator
             enableClickTimerCheckbox.Checked = Properties.Settings.Default.EnableClickTimer;
             modeComboBox.SelectedItem = Properties.Settings.Default.ConversionMode;
 
-            TransparencyManager = new TransparencyManager(this);
-            TransparencyListener = new TransparencyHotkeyListener()
-            {
-                Callback = () => transparentCheckbox.Checked = !transparentCheckbox.Checked
-            };
         }
 
         private void CalculatorForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -147,17 +142,6 @@ namespace HLLArtilleryCalculator
             LastClickAt = DateTime.Now;
         }
 
-        private void transparentCheckbox_CheckedChanged(object sender, EventArgs e)
-        {
-            TransparencyManager.EnableTransparency = transparentCheckbox.Checked;
-        }
-
-        private void CalculatorForm_Activated(object sender, EventArgs e)
-        {
-            if (transparentCheckbox.Checked)
-                transparentCheckbox.Checked = false;
-        }
-
         private void ModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var conversionMode = modeComboBox.SelectedItem;
@@ -167,7 +151,7 @@ namespace HLLArtilleryCalculator
                     Converter = new DistanceElevationConverter();
                     break;
                 case "USSR":
-                    Converter = new RusDistanceElevationConverter();
+                    Converter = new RussianDistanceElevationConverter();
                     break;
                 case "British":
                     Converter = new BritishDistanceElevationConverter();
