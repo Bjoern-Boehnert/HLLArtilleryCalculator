@@ -1,4 +1,5 @@
 # HLLArtilleryCalculator
+[![Build and Release](https://github.com/Bjoern-Boehnert/HLLArtilleryCalculator/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/Bjoern-Boehnert/HLLArtilleryCalculator/actions/workflows/dotnet-desktop.yml)
 
 Modification to the original project https://github.com/oceantume/ArtilleryCalculator from Gabriel Bourgeois. Thanks a lot for your work !
 
