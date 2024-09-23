@@ -7,11 +7,10 @@ namespace HLLArtilleryCalculator
     {
         IDistanceElevationConverter Converter { get; set; } = new DistanceElevationConverter();
         ArtilleryTimingCalculator TimingCalculator { get; } = new ArtilleryTimingCalculator();
+        ConversionHistory ConversionHistory { get; } = new ConversionHistory();
 
         NumpadListener NumpadListener { get; set; } = null;
         ClickListener ClickListener { get; set; } = null;
-        TransparencyHotkeyListener TransparencyListener { get; }
-        TransparencyManager TransparencyManager { get; }
 
         DateTime LastNumpadInputAt { get; set; } = DateTime.MinValue;
         DateTime LastClickAt { get; set; } = DateTime.MinValue;
@@ -21,9 +20,9 @@ namespace HLLArtilleryCalculator
             InitializeComponent();
 
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-            enableNumpadCheckbox.Checked = Properties.Settings.Default.EnableNumpadListener;
-            stayOnTopCheckbox.Checked = Properties.Settings.Default.StayOnTop;
-            enableClickTimerCheckbox.Checked = Properties.Settings.Default.EnableClickTimer;
+            listenToNumpadToolStripMenuItem.Checked = Properties.Settings.Default.EnableNumpadListener;
+            stayOnTopToolStripMenuItem.Checked = Properties.Settings.Default.StayOnTop;
+            enableClickTimerToolStripMenuItem.Checked = Properties.Settings.Default.EnableClickTimer;
             modeComboBox.SelectedItem = Properties.Settings.Default.ConversionMode;
 
         }
@@ -33,14 +32,14 @@ namespace HLLArtilleryCalculator
             Properties.Settings.Default.Save();
         }
 
-        private void enableNumpadCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void EnableNumpadCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             UpdateNumpadListener();
         }
 
         private void UpdateNumpadListener()
         {
-            var enabled = Properties.Settings.Default.EnableNumpadListener = enableNumpadCheckbox.Checked;
+            var enabled = Properties.Settings.Default.EnableNumpadListener = listenToNumpadToolStripMenuItem.Checked;
             if (enabled && NumpadListener == null)
             {
                 NumpadListener = new NumpadListener() { Callback = ReceiveNumpadDigit };
@@ -52,7 +51,7 @@ namespace HLLArtilleryCalculator
             }
         }
 
-        private void enableClickTimerCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void EnableClickTimerCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             UpdateClickListener();
             UpdateClickTimerControls();
@@ -60,7 +59,7 @@ namespace HLLArtilleryCalculator
 
         private void UpdateClickListener()
         {
-            var enabled = Properties.Settings.Default.EnableClickTimer = enableClickTimerCheckbox.Checked;
+            var enabled = Properties.Settings.Default.EnableClickTimer = enableClickTimerToolStripMenuItem.Checked;
             if (enabled && ClickListener == null)
             {
                 ClickListener = new ClickListener() { Callback = ReceiveClick };
@@ -74,7 +73,7 @@ namespace HLLArtilleryCalculator
 
         private void UpdateClickTimerControls()
         {
-            if (enableClickTimerCheckbox.Checked)
+            if (enableClickTimerToolStripMenuItem.Checked)
             {
                 clickTimerUpdateTimer.Start();
                 lastHitLabel.Show();
@@ -88,14 +87,37 @@ namespace HLLArtilleryCalculator
             }
         }
 
-        private void stayOnTopCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void StayOnTopCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            TopMost = Properties.Settings.Default.StayOnTop = stayOnTopCheckbox.Checked;
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+
+            TopMost = Properties.Settings.Default.StayOnTop = item.Checked;
         }
 
-        private void distanceInput_ValueChanged(object sender, EventArgs e)
+        private void DistanceInput_ValueChanged(object sender, EventArgs e)
         {
-            elevationInput.Value = Converter.ConvertDistanceToElevation(distanceInput.Value);
+
+            NumericUpDown control = (NumericUpDown)sender;
+            int distanceValue = (int) control.Value;
+
+            int mil = Converter.ConvertDistanceToElevation(distanceValue);
+            elevationInput.Value = mil;
+
+            try
+            {
+                // Show Latest Entry
+                var entry = ConversionHistory.GetLatestEntry();
+                lastConversionLabel.Text = entry.ToString();
+
+            } catch (Exception ex)
+            {
+                // No Entries
+            }
+                  
+
+            // Safe for History
+            ConversionHistory.AddEntry(distanceValue, mil);
+                        
         }
 
         private void ReceiveNumpadDigit(int digit)
@@ -114,14 +136,18 @@ namespace HLLArtilleryCalculator
                 var newStringValue = distanceInput.Value.ToString() + digit;
                 if (decimal.TryParse(newStringValue, out var newValue))
                 {
-                    distanceInput.Value = newValue;
+                    if(newValue <= 1600 && newValue >= 0)
+                    {
+                        distanceInput.Value = newValue;
+                    }
+                    
                 }
             }
 
             LastNumpadInputAt = DateTime.Now;
         }
 
-        private void clickTimerUpdateTimer_Tick(object sender, EventArgs e)
+        private void ClickTimerUpdateTimer_Tick(object sender, EventArgs e)
         {
             var hitTimePrediction = TimingCalculator.PredictHitTime(LastClickAt);
             var timeUntilHit = hitTimePrediction - DateTime.Now;
@@ -129,7 +155,7 @@ namespace HLLArtilleryCalculator
 
             if (remainingSeconds < 0)
             {
-                lastHitCountdownLabel.Text = "";
+                lastHitCountdownLabel.Text = "-";
             }
             else
             {
@@ -157,7 +183,14 @@ namespace HLLArtilleryCalculator
                     Converter = new BritishDistanceElevationConverter();
                     break;
             }
-            distanceInput_ValueChanged(sender, e);
+
+            UpdateDistanceInput();
         }
+
+        private void UpdateDistanceInput()
+        {
+            Converter.ConvertDistanceToElevation(Convert.ToInt32( distanceInput.Value));
+        }
+
     }
 }

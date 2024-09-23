@@ -9,75 +9,75 @@ namespace HLLArtilleryCalculator.Tests
         [Fact]
         public void TestRegularDistanceToElevationConversion()
         {
-            var tuples = new Tuple<decimal, decimal>[]
+            var tuples = new Tuple<int, int>[]
             {
                 // Values taken from in-game UI
-                Tuple.Create(1600m, 622m),
-                Tuple.Create(1500m, 646m),
-                Tuple.Create(1400m, 670m),
-                Tuple.Create(1000m, 764m),
-                Tuple.Create(900m, 788m),
-                Tuple.Create(600m, 859m),
-                Tuple.Create(500m, 883m),
-                Tuple.Create(200m, 954m),
-                Tuple.Create(100m, 978m),
+                Tuple.Create(1600, 622),
+                Tuple.Create(1500, 646),
+                Tuple.Create(1400, 670),
+                Tuple.Create(1000, 764),
+                Tuple.Create(900, 788),
+                Tuple.Create(600, 859),
+                Tuple.Create(500, 883),
+                Tuple.Create(200, 954),
+                Tuple.Create(100, 978),
             };
 
             IDistanceElevationConverter converter = new DistanceElevationConverter();
 
             foreach (var tuple in tuples)
             {
-                Assert.Equal(tuple.Item2, Math.Round(converter.ConvertDistanceToElevation(tuple.Item1)));
+                Assert.Equal(tuple.Item2, converter.ConvertDistanceToElevation(tuple.Item1));
             }
         }
 
         [Fact]
         public void TestRussiaDistanceToElevationConversion()
         {
-            var tuples = new Tuple<decimal, decimal>[]
+            var tuples = new Tuple<int, int>[]
             {
                 // Values taken from in-game UI
-                Tuple.Create(1600m, 800m),
-                Tuple.Create(1500m, 821m),
-                Tuple.Create(1400m, 843m),
-                Tuple.Create(1000m, 928m),
-                Tuple.Create(900m, 949m),
-                Tuple.Create(600m, 1013m),
-                Tuple.Create(500m, 1035m),
-                Tuple.Create(200m, 1099m),
-                Tuple.Create(100m, 1120m),
+                Tuple.Create(1600, 800),
+                Tuple.Create(1500, 821),
+                Tuple.Create(1400, 843),
+                Tuple.Create(1000, 928),
+                Tuple.Create(900, 949),
+                Tuple.Create(600, 1013),
+                Tuple.Create(500, 1035),
+                Tuple.Create(200, 1099),
+                Tuple.Create(100, 1120),
             };
 
             IDistanceElevationConverter converter = new RussianDistanceElevationConverter();
 
             foreach (var tuple in tuples)
             {
-                Assert.Equal(tuple.Item2, Math.Round(converter.ConvertDistanceToElevation(tuple.Item1)));
+                Assert.Equal(tuple.Item2,converter.ConvertDistanceToElevation(tuple.Item1));
             }
         }
 
         [Fact]
         public void TestBritishDistanceToElevationConversion()
         {
-            var tuples = new Tuple<decimal, decimal>[]
+            var tuples = new Tuple<int, int>[]
             {
                 // Values taken from in-game UI
-                Tuple.Create(1600m, 267m),
-                Tuple.Create(1500m, 285m),
-                Tuple.Create(1400m, 302m),
-                Tuple.Create(1000m, 373m),
-                Tuple.Create(900m, 391m),
-                Tuple.Create(600m, 444m),
-                Tuple.Create(500m, 462m),
-                Tuple.Create(200m, 515m),
-                Tuple.Create(100m, 533m),
+                Tuple.Create(1600, 267),
+                Tuple.Create(1500, 285),
+                Tuple.Create(1400, 302),
+                Tuple.Create(1000, 373),
+                Tuple.Create(900, 391),
+                Tuple.Create(600, 444),
+                Tuple.Create(500, 462),
+                Tuple.Create(200, 515),
+                Tuple.Create(100, 533),
             };
 
             IDistanceElevationConverter converter = new BritishDistanceElevationConverter();
 
             foreach (var tuple in tuples)
             {
-                Assert.Equal(tuple.Item2, Math.Round(converter.ConvertDistanceToElevation(tuple.Item1)));
+                Assert.Equal(tuple.Item2,converter.ConvertDistanceToElevation(tuple.Item1));
             }
         }
     }

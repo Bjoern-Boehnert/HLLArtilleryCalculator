@@ -5,9 +5,9 @@
         private const decimal M = -0.1773m;
         private const decimal B = 550.69m;
 
-        public decimal ConvertDistanceToElevation(decimal distance)
+        public int ConvertDistanceToElevation(int distance)
         {
-            return M * distance + B;
+            return Convert.ToInt32( M * distance + B);
         }
     }
 }

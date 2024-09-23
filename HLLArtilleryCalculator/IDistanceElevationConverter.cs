@@ -2,6 +2,6 @@
 {
     interface IDistanceElevationConverter
     {
-        decimal ConvertDistanceToElevation(decimal distance);
+        int ConvertDistanceToElevation(int distance);
     }
 }
