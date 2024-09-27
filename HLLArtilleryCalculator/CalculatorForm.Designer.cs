@@ -235,7 +235,7 @@
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "CalculatorForm";
-            Text = "HLL Artillery Calculator v1.1.0";
+            Text = "HLL Artillery Calculator v1.2.0";
             FormClosing += CalculatorForm_FormClosing;
             ((System.ComponentModel.ISupportInitialize)distanceInput).EndInit();
             menuStrip1.ResumeLayout(false);
