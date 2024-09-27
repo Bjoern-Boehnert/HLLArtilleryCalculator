@@ -31,6 +31,16 @@ namespace HLLArtilleryCalculator
 
             pendingDistance = distanceInput.Value;
             InputDebouncer = new Debouncer(500);
+
+            // Init Topmost
+            TopMost = Properties.Settings.Default.StayOnTop;
+
+            // Init NumpadListener
+            UpdateNumpadListener();
+
+            // Init ClickListener
+            UpdateClickListener();
+            UpdateClickTimerControls();
         }
 
         private void CalculatorForm_FormClosing(object sender, FormClosingEventArgs e)
