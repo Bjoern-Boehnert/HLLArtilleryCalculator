@@ -17,7 +17,7 @@ namespace HLLArtilleryCalculator
         DateTime LastClickAt { get; set; } = DateTime.MinValue;
 
         decimal pendingDistance = 0;
-        private System.Timers.Timer inputTimer;
+        Debouncer InputDebouncer { get; set; } = null;
 
         public CalculatorForm()
         {
@@ -30,10 +30,7 @@ namespace HLLArtilleryCalculator
             modeComboBox.SelectedItem = Properties.Settings.Default.ConversionMode;
 
             pendingDistance = distanceInput.Value;
-
-            inputTimer = new System.Timers.Timer(500);
-            inputTimer.Elapsed += (sender, e) => OnInputTimerElapsed();
-            inputTimer.AutoReset = false;
+            InputDebouncer = new Debouncer(500);
         }
 
         private void CalculatorForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -130,11 +127,11 @@ namespace HLLArtilleryCalculator
 
         }
 
-        private void OnInputTimerElapsed()
+        private void OnDebounceComplete(int distance)
         {
             distanceInput.Invoke((MethodInvoker)delegate
             {
-                distanceInput.Value = pendingDistance;
+                distanceInput.Value = distance;
                 keyPressDistanceLabel.Text = "";
             });
         }
@@ -160,14 +157,12 @@ namespace HLLArtilleryCalculator
                     {
                         pendingDistance = newValue;
                     }
-
                 }
             }
 
-            inputTimer.Stop();
-            inputTimer.Start();
-
+            InputDebouncer.Debounce((int)pendingDistance, OnDebounceComplete);
             keyPressDistanceLabel.Text = pendingDistance.ToString();
+
             LastNumpadInputAt = DateTime.Now;
         }
 
@@ -208,11 +203,7 @@ namespace HLLArtilleryCalculator
                     break;
             }
 
-            UpdateElevation();
-        }
-
-        private void UpdateElevation()
-        {
+            // Update Elevation
             elevationInput.Text = Converter.ConvertDistanceToElevation(Convert.ToInt32(distanceInput.Value)).ToString();
         }
 
