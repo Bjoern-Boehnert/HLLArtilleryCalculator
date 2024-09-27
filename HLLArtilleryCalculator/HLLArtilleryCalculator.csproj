@@ -12,8 +12,8 @@
     <AssemblyDescription>Artillery calculator that runs on your desktop</AssemblyDescription>
     <ProductName>HLL Artillery Calculator</ProductName>
     <AssemblyCopyright>Copyright © Björn Böhnert 2024</AssemblyCopyright>
-    <AssemblyVersion>1.2.1</AssemblyVersion>
-    <AssemblyFileVersion>1.2.1</AssemblyFileVersion>
+    <AssemblyVersion>1.0.3</AssemblyVersion>
+    <AssemblyFileVersion>1.0.3</AssemblyFileVersion>
 
     <ApplicationIcon>ArtilleryCalculatorIcon.ico</ApplicationIcon>
     
