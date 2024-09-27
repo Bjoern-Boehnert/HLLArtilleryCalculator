@@ -25,7 +25,7 @@ namespace HLLArtilleryCalculator.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool EnableNumpadListener {
             get {
                 return ((bool)(this["EnableNumpadListener"]));
@@ -37,7 +37,7 @@ namespace HLLArtilleryCalculator.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool StayOnTop {
             get {
                 return ((bool)(this["StayOnTop"]));

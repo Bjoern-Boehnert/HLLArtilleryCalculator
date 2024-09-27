@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Timers;
 
 namespace HLLArtilleryCalculator
 {
@@ -15,6 +16,9 @@ namespace HLLArtilleryCalculator
         DateTime LastNumpadInputAt { get; set; } = DateTime.MinValue;
         DateTime LastClickAt { get; set; } = DateTime.MinValue;
 
+        decimal pendingDistance = 0;
+        private System.Timers.Timer inputTimer;
+
         public CalculatorForm()
         {
             InitializeComponent();
@@ -25,6 +29,11 @@ namespace HLLArtilleryCalculator
             enableClickTimerToolStripMenuItem.Checked = Properties.Settings.Default.EnableClickTimer;
             modeComboBox.SelectedItem = Properties.Settings.Default.ConversionMode;
 
+            pendingDistance = distanceInput.Value;
+
+            inputTimer = new System.Timers.Timer(500);
+            inputTimer.Elapsed += (sender, e) => OnInputTimerElapsed();
+            inputTimer.AutoReset = false;
         }
 
         private void CalculatorForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -98,10 +107,10 @@ namespace HLLArtilleryCalculator
         {
 
             NumericUpDown control = (NumericUpDown)sender;
-            int distanceValue = (int) control.Value;
+            int distanceValue = (int)control.Value;
 
             int mil = Converter.ConvertDistanceToElevation(distanceValue);
-            elevationInput.Value = mil;
+            elevationInput.Text = mil.ToString();
 
             try
             {
@@ -109,16 +118,27 @@ namespace HLLArtilleryCalculator
                 var entry = ConversionHistory.GetLatestEntry();
                 lastConversionLabel.Text = entry.ToString();
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 // No Entries
             }
-                  
+
 
             // Safe for History
             ConversionHistory.AddEntry(distanceValue, mil);
-                        
+
         }
+
+        private void OnInputTimerElapsed()
+        {
+            distanceInput.Invoke((MethodInvoker)delegate
+            {
+                distanceInput.Value = pendingDistance;
+                keyPressDistanceLabel.Text = "";
+            });
+        }
+
 
         private void ReceiveNumpadDigit(int digit)
         {
@@ -129,21 +149,25 @@ namespace HLLArtilleryCalculator
 
             if (DateTime.Now - LastNumpadInputAt > TimeSpan.FromSeconds(1))
             {
-                distanceInput.Value = digit;
+                pendingDistance = digit;
             }
             else
             {
-                var newStringValue = distanceInput.Value.ToString() + digit;
+                var newStringValue = pendingDistance.ToString() + digit;
                 if (decimal.TryParse(newStringValue, out var newValue))
                 {
-                    if(newValue <= 1600 && newValue >= 0)
+                    if (newValue <= 1600 && newValue >= 0)
                     {
-                        distanceInput.Value = newValue;
+                        pendingDistance = newValue;
                     }
-                    
+
                 }
             }
 
+            inputTimer.Stop();
+            inputTimer.Start();
+
+            keyPressDistanceLabel.Text = pendingDistance.ToString();
             LastNumpadInputAt = DateTime.Now;
         }
 
@@ -184,12 +208,12 @@ namespace HLLArtilleryCalculator
                     break;
             }
 
-            UpdateDistanceInput();
+            UpdateElevation();
         }
 
-        private void UpdateDistanceInput()
+        private void UpdateElevation()
         {
-            Converter.ConvertDistanceToElevation(Convert.ToInt32( distanceInput.Value));
+            elevationInput.Text = Converter.ConvertDistanceToElevation(Convert.ToInt32(distanceInput.Value)).ToString();
         }
 
     }

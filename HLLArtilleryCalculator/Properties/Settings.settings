@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="EnableNumpadListener" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="StayOnTop" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="EnableClickTimer" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
